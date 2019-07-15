@@ -1,6 +1,6 @@
 package application
 
-import domain.{Fee, JuniorAndSeniorHighSchoolStudent, Order, Standard}
+import domain.{CinemaCitizen, Fee, JuniorAndSeniorHighSchoolStudent, Order, Standard}
 import org.scalatest._
 
 class TicketFeeCalculationServiceTest
@@ -29,5 +29,13 @@ class TicketFeeCalculationServiceTest
 
     val orders = Seq(Order(JuniorAndSeniorHighSchoolStudent), Order(JuniorAndSeniorHighSchoolStudent))
     TicketFeeCalculateService.calc(orders) shouldEqual Fee(2200L)
+  }
+
+  it should "シネマシティズンチケットの料金計算ができる" in {
+    val order = Order(CinemaCitizen)
+    TicketFeeCalculateService.calc(order) shouldEqual Fee(1000L)
+
+    val orders = Seq(Order(CinemaCitizen), Order(CinemaCitizen))
+    TicketFeeCalculateService.calc(orders) shouldEqual Fee(2000L)
   }
 }

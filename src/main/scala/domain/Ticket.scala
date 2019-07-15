@@ -1,6 +1,7 @@
 package domain
 
 sealed trait TicketType
+case object CinemaCitizen extends TicketType
 case object Standard extends TicketType
 case object JuniorAndSeniorHighSchoolStudent extends TicketType
 

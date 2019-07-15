@@ -1,6 +1,6 @@
 package application
 
-import domain.{Fee, JuniorAndSeniorHighSchoolStudent, Order, Standard, TicketPrice, TicketType}
+import domain.{CinemaCitizen, Fee, JuniorAndSeniorHighSchoolStudent, Order, Standard, TicketPrice, TicketType}
 
 case object TicketFeeCalculateService {
 
@@ -16,5 +16,6 @@ case object TicketFeeCalculateService {
       case Order(Standard, false) => TicketPrice(1800L)
       case Order(Standard, true) => TicketPrice(1300L)
       case Order(JuniorAndSeniorHighSchoolStudent, _) => TicketPrice(1100L)
+      case Order(CinemaCitizen, _) => TicketPrice(1000L)
     }
 }
