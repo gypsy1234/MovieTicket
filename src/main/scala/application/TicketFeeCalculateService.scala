@@ -15,7 +15,7 @@ case object TicketFeeCalculateService {
     order match {
       case Order(Standard, false) => TicketPrice(1800L)
       case Order(Standard, true) => TicketPrice(1300L)
-      case Order(JuniorAndSeniorHighSchoolStudent, _) => TicketPrice(1100L)
+      case Order(JuniorAndSeniorHighSchoolStudent, _) => TicketPrice(1000L)
       case Order(CinemaCitizen, _) => TicketPrice(1000L)
     }
 }
