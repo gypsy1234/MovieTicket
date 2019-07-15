@@ -12,6 +12,8 @@ class TicketFeeCalculationServiceTest
   trait Fixture {
     val DayTime = ScreeningDatetime(LocalDateTime.of(2019, 7, 12, 19, 59))
     val LateTime = ScreeningDatetime(LocalDateTime.of(2019, 7, 12, 20, 0))
+    val HolidayDayTime = ScreeningDatetime(LocalDateTime.of(2019, 7, 15, 19, 59))
+    val HolidayLateTime = ScreeningDatetime(LocalDateTime.of(2019, 7, 15, 20, 0))
   }
 
   "TicketFeeCalculationService.calc" should "一般のチケットの料金計算ができる" in new Fixture {
@@ -43,7 +45,13 @@ class TicketFeeCalculationServiceTest
     val rateOrder = Order(CinemaCitizen, LateTime)
     TicketFeeCalculateService.calc(rateOrder) shouldEqual Fee(1000L)
 
-    val orders = Seq(order, rateOrder)
-    TicketFeeCalculateService.calc(orders) shouldEqual Fee(2000L)
+    val holidayDayOrder = Order(CinemaCitizen, HolidayDayTime)
+    TicketFeeCalculateService.calc(holidayDayOrder) shouldEqual Fee(1300L)
+
+    val holidayLateOrder = Order(CinemaCitizen, HolidayLateTime)
+    TicketFeeCalculateService.calc(holidayLateOrder) shouldEqual Fee(1000L)
+
+    val orders = Seq(order, rateOrder, holidayDayOrder)
+    TicketFeeCalculateService.calc(orders) shouldEqual Fee(3300L)
   }
 }
