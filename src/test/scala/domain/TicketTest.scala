@@ -1,6 +1,5 @@
 package domain
 
-import domain.{Fee, Order, Standard}
 import org.scalatest._
 
 class TicketTest
