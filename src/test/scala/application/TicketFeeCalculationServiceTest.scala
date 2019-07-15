@@ -2,7 +2,7 @@ package application
 
 import java.time.LocalDateTime
 
-import domain.{CinemaCitizen, Fee, JuniorAndSeniorHighSchoolStudent, Order, ScreeningDatetime, Standard}
+import domain.{CinemaCitizen, CinemaCitizenSenior, CompanionOfHandicappedPeople, Fee, HandicappedPeople, JuniorAndSeniorHighSchoolStudent, Order, ScreeningDatetime, Senior, Standard, ToddlerAndElementarySchoolStudent, UniversityAndVocationalCollegeStudent}
 import org.scalatest._
 
 class TicketFeeCalculationServiceTest
@@ -63,5 +63,108 @@ class TicketFeeCalculationServiceTest
 
     val orders = Seq(order, rateOrder, holidayDayOrder)
     TicketFeeCalculateService.calc(orders) shouldEqual Fee(3300L)
+  }
+
+  it should "シネマシティズン（60才以上）チケットの料金計算ができる" in new Fixture {
+    val order = Order(CinemaCitizenSenior, DayTime)
+    TicketFeeCalculateService.calc(order) shouldEqual Fee(1000L)
+
+    val rateOrder = Order(CinemaCitizenSenior, LateTime)
+    TicketFeeCalculateService.calc(rateOrder) shouldEqual Fee(1000L)
+
+    val holidayDayOrder = Order(CinemaCitizenSenior, HolidayDayTime)
+    TicketFeeCalculateService.calc(holidayDayOrder) shouldEqual Fee(1000L)
+
+    val holidayLateOrder = Order(CinemaCitizenSenior, HolidayLateTime)
+    TicketFeeCalculateService.calc(holidayLateOrder) shouldEqual Fee(1000L)
+
+    val movieDayOrder = Order(CinemaCitizenSenior, MovieDay)
+    TicketFeeCalculateService.calc(movieDayOrder) shouldEqual Fee(1000L)
+
+    val orders = Seq(order, rateOrder, holidayDayOrder)
+    TicketFeeCalculateService.calc(orders) shouldEqual Fee(3000L)
+  }
+
+  it should "シニア（70才以上）チケットの料金計算ができる" in new Fixture {
+    val order = Order(Senior, DayTime)
+    TicketFeeCalculateService.calc(order) shouldEqual Fee(1100L)
+
+    val rateOrder = Order(Senior, LateTime)
+    TicketFeeCalculateService.calc(rateOrder) shouldEqual Fee(1100L)
+
+    val holidayDayOrder = Order(Senior, HolidayDayTime)
+    TicketFeeCalculateService.calc(holidayDayOrder) shouldEqual Fee(1100L)
+
+    val holidayLateOrder = Order(Senior, HolidayLateTime)
+    TicketFeeCalculateService.calc(holidayLateOrder) shouldEqual Fee(1100L)
+
+    val movieDayOrder = Order(Senior, MovieDay)
+    TicketFeeCalculateService.calc(movieDayOrder) shouldEqual Fee(1100L)
+
+    val orders = Seq(order, rateOrder, holidayDayOrder)
+    TicketFeeCalculateService.calc(orders) shouldEqual Fee(3300L)
+  }
+
+  it should "学生（大・専）チケットの料金計算ができる" in new Fixture {
+    val order = Order(UniversityAndVocationalCollegeStudent, DayTime)
+    TicketFeeCalculateService.calc(order) shouldEqual Fee(1500L)
+
+    val rateOrder = Order(UniversityAndVocationalCollegeStudent, LateTime)
+    TicketFeeCalculateService.calc(rateOrder) shouldEqual Fee(1300L)
+
+    val holidayDayOrder = Order(UniversityAndVocationalCollegeStudent, HolidayDayTime)
+    TicketFeeCalculateService.calc(holidayDayOrder) shouldEqual Fee(1500L)
+
+    val holidayLateOrder = Order(UniversityAndVocationalCollegeStudent, HolidayLateTime)
+    TicketFeeCalculateService.calc(holidayLateOrder) shouldEqual Fee(1300L)
+
+    val movieDayOrder = Order(UniversityAndVocationalCollegeStudent, MovieDay)
+    TicketFeeCalculateService.calc(movieDayOrder) shouldEqual Fee(1100L)
+
+    val orders = Seq(order, rateOrder, holidayDayOrder)
+    TicketFeeCalculateService.calc(orders) shouldEqual Fee(4300L)
+  }
+
+  it should "幼児（3才以上）・小学生チケットの料金計算ができる" in new Fixture {
+    val order = Order(ToddlerAndElementarySchoolStudent, DayTime)
+    TicketFeeCalculateService.calc(order) shouldEqual Fee(1000L)
+
+    val rateOrder = Order(ToddlerAndElementarySchoolStudent, LateTime)
+    TicketFeeCalculateService.calc(rateOrder) shouldEqual Fee(1000L)
+
+    val holidayDayOrder = Order(ToddlerAndElementarySchoolStudent, HolidayDayTime)
+    TicketFeeCalculateService.calc(holidayDayOrder) shouldEqual Fee(1000L)
+
+    val holidayLateOrder = Order(ToddlerAndElementarySchoolStudent, HolidayLateTime)
+    TicketFeeCalculateService.calc(holidayLateOrder) shouldEqual Fee(1000L)
+
+    val movieDayOrder = Order(ToddlerAndElementarySchoolStudent, MovieDay)
+    TicketFeeCalculateService.calc(movieDayOrder) shouldEqual Fee(1000L)
+
+    val orders = Seq(order, rateOrder, holidayDayOrder)
+    TicketFeeCalculateService.calc(orders) shouldEqual Fee(3000L)
+  }
+
+  it should "障がい者（学生以上）チケットの料金計算ができる" in new Fixture {
+    val order = Order(HandicappedPeople, DayTime)
+    TicketFeeCalculateService.calc(order) shouldEqual Fee(1000L)
+
+    val rateOrder = Order(HandicappedPeople, LateTime)
+    TicketFeeCalculateService.calc(rateOrder) shouldEqual Fee(1000L)
+
+    val holidayDayOrder = Order(HandicappedPeople, HolidayDayTime)
+    TicketFeeCalculateService.calc(holidayDayOrder) shouldEqual Fee(1000L)
+
+    val holidayLateOrder = Order(HandicappedPeople, HolidayLateTime)
+    TicketFeeCalculateService.calc(holidayLateOrder) shouldEqual Fee(1000L)
+
+    val movieDayOrder = Order(HandicappedPeople, MovieDay)
+    TicketFeeCalculateService.calc(movieDayOrder) shouldEqual Fee(1000L)
+
+    val withCompanion = Seq(Order(HandicappedPeople, DayTime), Order(CompanionOfHandicappedPeople, DayTime))
+    TicketFeeCalculateService.calc(withCompanion) shouldEqual Fee(2000L)
+
+    val orders = Seq(order, rateOrder, holidayDayOrder)
+    TicketFeeCalculateService.calc(orders) shouldEqual Fee(3000L)
   }
 }
